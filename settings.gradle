@@ -1,0 +1,3 @@
+rootProject.name = 'TheIndianMaharajaToursApp'
+include 'backend-service'
+include 'frontend-service'

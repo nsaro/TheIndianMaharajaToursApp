@@ -1,0 +1,52 @@
+definitions:
+
+  Car:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      type:
+        type: string
+      name:
+        type: string
+      sittingCapacity:
+        type: string
+      description:
+        type: string
+      thumbnailFilename:
+        type: string
+
+  ArrayOfCars:
+    type: array
+    items:
+      $ref: '#/definitions/Car'
+
+  QueryDto:
+    type: object
+    properties:
+      tourId:
+        type: integer
+        format: int32
+      numberOfPassenger:
+        type: integer
+      name:
+        type: string
+      subject:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      text:
+        type: string
+      budgetSelection:
+        type: string
+      budget:
+        type: string
+      accommodation:
+        type: string
+      country:
+        type: string
+      selectedCar:
+        type: string

@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "Indian Maharaja Tours"
+  description: 'Indian Maharaja Tours Open API Specifications'
+
+servers:
+  - url: http://localhost:8085/api
+    description: Dev Server
+tags:
+  - name: car
+    description: Car Management
+
+paths:
+  /getAllCars:
+    get:
+      tags:
+        - car
+      description: Get all cars
+      operationId: getAllCars
+      responses:
+        200:
+          description: successfully loaded all cars
+          content:
+            application/json:
+              schema:
+                $ref: 'models/models.yaml#/definitions/ArrayOfCars'
+        404:
+          description: Page not found
+
+  /car/downloadThumbnail/{id}:
+    get:
+      tags:
+        - car
+      description: Download car thumbnail
+      operationId: downloadCarThumbnail
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: carId
+      responses:
+        200:
+          description: successfully download car thumbnail
+        404:
+          description: Page not found
+
+  /car/submitCarRentalQuery:
+    post:
+      tags:
+        - car
+      description: Submit car rental query
+      operationId: submitCarRentalQuery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models/models.yaml#/definitions/QueryDto'
+      responses:
+        200:
+          description: Car rental query successfully submitted
+          content:
+            'application/json':
+              schema:
+                type: boolean
+        404:
+          description: Page not found
