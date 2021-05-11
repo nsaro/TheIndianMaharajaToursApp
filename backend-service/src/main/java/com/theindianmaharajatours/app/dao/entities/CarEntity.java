@@ -11,7 +11,7 @@ import java.sql.Blob;
 @Setter
 @Entity
 @Table(name="Car")
-public class Car {
+public class CarEntity {
 
 	@Id
     @Column(name="id")
@@ -24,7 +24,7 @@ public class Car {
 	@Column(name="name")
 	private String name;
 	
-	@Column(name="sittingCapacity")
+	@Column(name="sittingcapacity")
 	private int sittingCapacity;
 	
 	@Column(name="description")

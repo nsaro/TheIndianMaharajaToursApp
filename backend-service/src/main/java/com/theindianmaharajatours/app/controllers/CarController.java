@@ -1,7 +1,9 @@
 package com.theindianmaharajatours.app.controllers;
 
-import com.theindianmaharajatours.app.dao.entities.Car;
-import com.theindianmaharajatours.app.dtos.QueryDto;
+import com.generated.code.api.CarApi;
+import com.generated.code.model.Car;
+import com.generated.code.model.QueryDto;
+import com.theindianmaharajatours.app.dao.entities.CarEntity;
 import com.theindianmaharajatours.app.services.CarService;
 import com.theindianmaharajatours.app.services.DownloadService;
 import com.theindianmaharajatours.app.services.EmailService;
@@ -12,9 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
-public class CarController {
+public class CarController implements CarApi {
 
     private final CarService carService;
     private final DownloadService downloadService;
@@ -26,7 +29,7 @@ public class CarController {
         this.emailService = emailService;
     }
 
-    @GetMapping("/getAllCars")
+    @Override
     public ResponseEntity<List<Car>> getAllCars() {
         List<Car> cars = this.carService.getAllCars();
         return ResponseEntity.ok(cars);
@@ -35,12 +38,12 @@ public class CarController {
     @GetMapping("/car/downloadThumbnail/{id}")
     public void downloadCarThumbnail(@PathVariable("id") Long id, HttpServletResponse response)
             throws SQLException {
-        Car car = this.carService.getCar(id);
-        this.downloadService.downloadFile(response, car.getThumbnailFilename(),
-                car.getThumbnail().getBinaryStream());
+        CarEntity carEntity = this.carService.getCar(id);
+        this.downloadService.downloadFile(response, carEntity.getThumbnailFilename(),
+                carEntity.getThumbnail().getBinaryStream());
     }
 
-    @PostMapping("/car/submitCarRentalQuery")
+    @Override
     public ResponseEntity<Boolean> submitCarRentalQuery(@RequestBody QueryDto queryDto) {
         boolean result = this.emailService.submitCarRentalQueryEmailToExecutive(queryDto);
         return ResponseEntity.ok(result);

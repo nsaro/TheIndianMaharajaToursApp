@@ -1,7 +1,9 @@
 package com.theindianmaharajatours.app.controllers;
 
-import com.theindianmaharajatours.app.dao.entities.Tour;
-import com.theindianmaharajatours.app.dtos.QueryDto;
+import com.generated.code.api.TourApi;
+import com.generated.code.model.QueryDto;
+import com.generated.code.model.Tour;
+import com.theindianmaharajatours.app.dao.entities.TourEntity;
 import com.theindianmaharajatours.app.services.DownloadService;
 import com.theindianmaharajatours.app.services.EmailService;
 import com.theindianmaharajatours.app.services.TourService;
@@ -12,9 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
-public class TourController {
+public class TourController implements TourApi{
 
     private final TourService tourService;
     private final DownloadService downloadService;
@@ -26,39 +29,39 @@ public class TourController {
         this.emailService = emailService;
     }
 
-    @GetMapping(value = "/getAllTours")
+    @Override
     public ResponseEntity<List<Tour>> getAllTours() {
-        List<Tour> tours = this.tourService.getAllTours();
-        return ResponseEntity.ok(tours);
+        List<Tour> tourEntities = this.tourService.getAllTours();
+        return ResponseEntity.ok(tourEntities);
     }
 
-    @GetMapping(value = "/getRandomTours")
+    @Override
     public ResponseEntity<List<Tour>> getRandomTours() {
-        List<Tour> tours = this.tourService.getRandomTours();
-        return ResponseEntity.ok(tours);
+        List<Tour> tourEntities = this.tourService.getRandomTours();
+        return ResponseEntity.ok(tourEntities);
     }
 
-    @GetMapping(value = "/getToursByStateId/{id}")
+    @Override
     public ResponseEntity<List<Tour>> getToursByStateId(@PathVariable("id") Long id) {
-        List<Tour> tours = this.tourService.getToursByStateId(id);
-        return ResponseEntity.ok(tours);
+        List<Tour> tourEntities = this.tourService.getToursByStateId(id);
+        return ResponseEntity.ok(tourEntities);
     }
 
     @GetMapping("/tour/downloadThumbnail/{id}")
     public void downloadThumbnail(@PathVariable("id") Integer id, HttpServletResponse response)
             throws SQLException {
-        Tour tour = this.tourService.getTourById(id);
-        this.downloadService.downloadFile(response, tour.getThumbnailFilename(),
-                tour.getThumbnail().getBinaryStream());
+        TourEntity tourEntity = this.tourService.getTourById(id);
+        this.downloadService.downloadFile(response, tourEntity.getThumbnailFilename(),
+                tourEntity.getThumbnail().getBinaryStream());
     }
 
-    @GetMapping("/tour/submitTourQuery")
+    @Override
     public ResponseEntity<Boolean> submitTourQuery(@RequestBody QueryDto queryDto) {
         boolean result = this.emailService.submitTourQueryEmailToExecutive(queryDto);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/tour/submitCustomTourQuery")
+    @Override
     public ResponseEntity<Boolean> submitCustomTourQuery(@RequestBody QueryDto queryDto) {
         boolean result = this.emailService.submitCustomTourQueryEmailToExecutive(queryDto);
         return ResponseEntity.ok(result);

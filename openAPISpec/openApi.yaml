@@ -8,15 +8,211 @@ servers:
   - url: http://localhost:8085/api
     description: Dev Server
 tags:
+  - name: tour
+    description: Tour Management
+  - name: state
+    description: State Management
   - name: car
     description: Car Management
-
+  - name: itinerary
+    description: Itinerary Management
+  - name: tourSlide
+    description: Tour Slide Management
 paths:
-  /getAllCars:
+
+  /tourSlide/getTourSlidesByTourId/{id}:
+    get:
+      tags:
+        - tourSlide
+      description: 'Get Tour Slide by tour id'
+      operationId: getTourSlidesByTourId
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: 'Tour id'
+      responses:
+        200:
+          description: 'Successfully loaded all tour slides'
+          content:
+            application/json:
+              schema:
+                $ref: 'models/models.yaml#/definitions/ArrayOfTourSlides'
+        404:
+          description: 'Page not found'
+
+  /itinerary/getItinerariesByTourId/{id}:
+    get:
+      tags:
+        - itinerary
+      description: 'Get itinerary by tour id'
+      operationId: getItinerariesByTourId
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: 'Tour id'
+      responses:
+        200:
+          description: 'Successfully loaded all itineraries'
+          content:
+            application/json:
+              schema:
+                $ref: 'models/models.yaml#/definitions/ArrayOfItineraries'
+        404:
+          description: 'Page not found'
+
+  /tour/getAllTours:
+    get:
+      tags:
+        - tour
+      description: 'Get all tours'
+      operationId: getAllTours
+      responses:
+        200:
+          description: successfully loaded all tours
+          content:
+            application/json:
+              schema:
+                $ref: 'models/models.yaml#/definitions/ArrayOfTours'
+        404:
+          description: 'Page not found'
+
+  /tour/getRandomTours:
+    get:
+      tags:
+        - tour
+      description: 'Get random tours'
+      operationId: getRandomTours
+      responses:
+        200:
+          description: successfully loaded all tours
+          content:
+            application/json:
+              schema:
+                $ref: 'models/models.yaml#/definitions/ArrayOfTours'
+        404:
+          description: 'Page not found'
+
+  /tour/getToursByStateId/{id}:
+    get:
+      tags:
+        - tour
+      description: 'Get tour by state id'
+      operationId: getToursByStateId
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: 'State id'
+      responses:
+        200:
+          description: 'Successfully loaded all tours'
+          content:
+            application/json:
+              schema:
+                $ref: 'models/models.yaml#/definitions/ArrayOfTours'
+        404:
+          description: 'Page not found'
+
+  /tour/submitTourQuery:
+    post:
+      tags:
+        - tour
+      description: 'Submit tour query'
+      operationId: submitTourQuery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models/models.yaml#/definitions/QueryDto'
+      responses:
+        200:
+          description: 'Tour query successfully submitted'
+          content:
+            'application/json':
+              schema:
+                type: boolean
+        404:
+          description: 'Page not found'
+
+  /tour/submitCustomTourQuery:
+    post:
+      tags:
+        - tour
+      description: 'Submit custom tour query'
+      operationId: submitCustomTourQuery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'models/models.yaml#/definitions/QueryDto'
+      responses:
+        200:
+          description: 'Custom tour query successfully submitted'
+          content:
+            'application/json':
+              schema:
+                type: boolean
+        404:
+          description: 'Page not found'
+
+  /state/getAllStates:
+    get:
+      tags:
+        - state
+      description: 'Get all state'
+      operationId: getAllStates
+      responses:
+        200:
+          description: successfully loaded all state
+          content:
+            application/json:
+              schema:
+                $ref: 'models/models.yaml#/definitions/ArrayOfStates'
+        404:
+          description: Page not found
+
+  /state/getState/{id}:
+    get:
+      tags:
+        - state
+      description: 'Get state'
+      operationId: getStateById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: 'State id'
+      responses:
+        200:
+          description: 'Successfully loaded state'
+          content:
+            application/json:
+              schema:
+                $ref: 'models/models.yaml#/definitions/State'
+        404:
+          description: 'Page not found'
+
+  /car/getAllCars:
     get:
       tags:
         - car
-      description: Get all cars
+      description: 'Get all cars'
       operationId: getAllCars
       responses:
         200:
@@ -26,32 +222,13 @@ paths:
               schema:
                 $ref: 'models/models.yaml#/definitions/ArrayOfCars'
         404:
-          description: Page not found
-
-  /car/downloadThumbnail/{id}:
-    get:
-      tags:
-        - car
-      description: Download car thumbnail
-      operationId: downloadCarThumbnail
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: carId
-      responses:
-        200:
-          description: successfully download car thumbnail
-        404:
-          description: Page not found
+          description: 'Page not found'
 
   /car/submitCarRentalQuery:
     post:
       tags:
         - car
-      description: Submit car rental query
+      description: 'Submit car rental query'
       operationId: submitCarRentalQuery
       requestBody:
         required: true
@@ -61,10 +238,10 @@ paths:
               $ref: 'models/models.yaml#/definitions/QueryDto'
       responses:
         200:
-          description: Car rental query successfully submitted
+          description: 'Car rental query successfully submitted'
           content:
             'application/json':
               schema:
                 type: boolean
         404:
-          description: Page not found
+          description: 'Page not found'

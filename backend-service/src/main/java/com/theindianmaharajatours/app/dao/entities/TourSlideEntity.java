@@ -10,15 +10,15 @@ import java.sql.Blob;
 @Setter
 @Entity
 @Table(name="TourSlide")
-public class TourSlide {
+public class TourSlideEntity {
 	
 	@Id
-    @Column(name="tourslideId")
+    @Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer tourSlideId;
+    private Long id;
 	
     @Column(name="tourid",columnDefinition = "INT(11)")
-	private Integer tourId;
+	private Long tourId;
 	
     @Column(name="name",columnDefinition = "varchar(500)")
 	private String name;

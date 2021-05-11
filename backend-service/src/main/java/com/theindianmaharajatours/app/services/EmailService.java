@@ -1,7 +1,7 @@
 package com.theindianmaharajatours.app.services;
 
-import com.theindianmaharajatours.app.dao.entities.Tour;
-import com.theindianmaharajatours.app.dtos.QueryDto;
+import com.generated.code.model.QueryDto;
+import com.theindianmaharajatours.app.dao.entities.TourEntity;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -29,11 +29,11 @@ public class EmailService {
     }
 
     public boolean submitTourQueryEmailToExecutive(QueryDto queryDto) {
-        Tour tour = this.tourService.getTourById(queryDto.getTourId());
-        String subject = "Customer Query For " + tour.getName();
-        String content = "<img src='http://theindianmaharajatours.com/en/resources/theme/images/logo.png' width='201' height='86'/><br><h1>Customer submitted a query</h1><br><br><h3>Email id: " + queryDto.getEmail() + "</h3><br><h3>Mobile Number: " + queryDto.getPhone() + "</h3><br><br><hr><p>Customer is interested in Tour <b>" + tour.getName() + "</b></p>";
+        TourEntity tourEntity = this.tourService.getTourById(queryDto.getTourId());
+        String subject = "Customer Query For " + tourEntity.getName();
+        String content = "<img src='http://theindianmaharajatours.com/en/resources/theme/images/logo.png' width='201' height='86'/><br><h1>Customer submitted a query</h1><br><br><h3>Email id: " + queryDto.getEmail() + "</h3><br><h3>Mobile Number: " + queryDto.getPhone() + "</h3><br><br><hr><p>Customer is interested in Tour <b>" + tourEntity.getName() + "</b></p>";
         if (sendEmail(emailExecutiveId, subject, content)) {
-            return sendCustomerEmailTourQueryConfirmation(queryDto.getEmail(), queryDto.getEmail(), tour.getName());
+            return sendCustomerEmailTourQueryConfirmation(queryDto.getEmail(), queryDto.getEmail(), tourEntity.getName());
         }
         return false;
     }

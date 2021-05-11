@@ -11,7 +11,7 @@ import java.sql.Date;
 @Setter
 @Entity
 @Table(name="State")
-public class State {
+public class StateEntity {
     
 	@Id
     @Column(name="stateid")

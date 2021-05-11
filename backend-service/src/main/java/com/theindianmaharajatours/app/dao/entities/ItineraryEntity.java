@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name="Itinerary")
-public class Itinerary {
+public class ItineraryEntity {
 
 	@Id
     @Column(name="itineraryid")

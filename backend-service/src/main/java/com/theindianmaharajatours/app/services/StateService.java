@@ -1,11 +1,16 @@
 package com.theindianmaharajatours.app.services;
 
-import com.theindianmaharajatours.app.dao.entities.State;
+import com.generated.code.model.State;
+import com.theindianmaharajatours.app.dao.entities.StateEntity;
 import com.theindianmaharajatours.app.dao.repository.StateRepository;
+import com.theindianmaharajatours.app.mappers.StateMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @Transactional
@@ -16,24 +21,33 @@ public class StateService {
         this.stateRepository = stateRepository;
     }
 
-    public void addState(State state) {
-        this.stateRepository.save(state);
+    public void addState(StateEntity stateEntity) {
+        this.stateRepository.save(stateEntity);
     }
 
-    public void updateState(State state) {
-        this.stateRepository.save(state);
+    public void updateState(StateEntity stateEntity) {
+        this.stateRepository.save(stateEntity);
     }
 
     public List<State> getAllStates() {
-        return this.stateRepository.findAll();
+        return StateMapper.INSTANCE.getStates(this.stateRepository.findAll());
     }
 
     public State getStateById(long id) {
-        return this.stateRepository.getOne(id);
+        return StateMapper.INSTANCE.stateEntityToState(getStateEntityById(id));
+    }
+
+    public StateEntity getStateEntityById(long id) {
+        StateEntity stateEntity = this.stateRepository.findById(id).orElse(null);
+        if (stateEntity == null)
+        {
+            throw new ResponseStatusException(NOT_FOUND, "State not found!");
+        }
+        return stateEntity;
     }
 
     public void removeState(long id) {
-        this.stateRepository.delete(getStateById(id));
+        this.stateRepository.delete(getStateEntityById(id));
     }
 
 }

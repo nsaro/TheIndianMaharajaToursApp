@@ -1,11 +1,104 @@
 definitions:
 
+  TourSlide:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      tourId:
+        type: integer
+        format: int64
+      name:
+        type: string
+      tourSlideFilename:
+        type: string
+
+  ArrayOfTourSlides:
+    type: array
+    items:
+      $ref: '#/definitions/TourSlide'
+
+  Itinerary:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      tourId:
+        type: integer
+        format: int64
+      name:
+        type: string
+      dayNumber:
+        type: string
+      dayCity:
+        type: string
+      dayDetails:
+        type: string
+
+  ArrayOfItineraries:
+    type: array
+    items:
+      $ref: '#/definitions/Itinerary'
+
+  Tour:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      stateId:
+        type: integer
+        format: int64
+      name:
+        type: string
+      cities:
+        type: string
+      overview:
+        type: string
+      thumbnailFilename:
+        type: string
+      duration:
+        type: string
+      stateName:
+        type: string
+
+  ArrayOfTours:
+    type: array
+    items:
+      $ref: '#/definitions/Tour'
+
+  State:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      thumbnailDescription:
+        type: string
+      region:
+        type: string
+      bigImageFilename:
+        type: string
+      descriptionParagraphOne:
+        type: string
+      descriptionParagraphTwo:
+        type: string
+
+  ArrayOfStates:
+    type: array
+    items:
+      $ref: '#/definitions/State'
+
   Car:
     type: object
     properties:
       id:
         type: integer
-        format: int32
+        format: int64
       type:
         type: string
       name:
@@ -27,7 +120,7 @@ definitions:
     properties:
       tourId:
         type: integer
-        format: int32
+        format: int64
       numberOfPassenger:
         type: integer
       name:

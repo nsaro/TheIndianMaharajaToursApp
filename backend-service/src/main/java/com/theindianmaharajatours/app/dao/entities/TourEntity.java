@@ -11,12 +11,12 @@ import java.sql.Date;
 @Setter
 @Entity
 @Table(name="Tour")
-public class Tour {
+public class TourEntity {
 
 	@Id
     @Column(name="tourid")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer tourId;
+	private Long tourId;
 	
 	@Column(name="name")
 	private String name;
